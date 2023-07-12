@@ -1,0 +1,5 @@
+Infrastructure/.terraform
+Infrastructure/.terraform.lock.hcl
+aws_devtest.pem
+*.pem
+Infrastructure/terraform.tfvars

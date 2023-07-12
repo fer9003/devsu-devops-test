@@ -1,0 +1,56 @@
+- name: Execute jenkins on docker
+  hosts: all
+  become: yes
+  gather_facts: False
+  vars:
+    project_dir: /opt/proyectos
+  tasks:
+    - name: Create project directory if it does not exist
+      become: true
+      file:
+        path: "{{project_dir}}"
+        state: directory
+        owner: ec2-user
+        mode: '0755'
+    - name: "Install Docker"
+      become: true
+      command: "amazon-linux-extras install -y docker"  
+    - name: Install docker-compose
+      become: true
+      get_url: 
+        url : https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64
+        dest: /usr/local/bin/docker-compose
+        mode: 'u+x,g+x,o+x'
+    - name: Create a symbolic link
+      become: true
+      file:
+        src: /usr/local/bin/docker-compose
+        dest: /usr/bin/docker-compose
+        owner: root
+        group: root
+        state: link
+    - name: Enable service Docker
+      become: true
+      systemd:
+        name: docker
+        enabled: yes
+    - name: Make sure docker service is running
+      become: true
+      systemd:
+        state: started
+        name: docker   
+    - name: Adding user ec2-user to docker
+      become: true
+      user: 
+        name: 'ec2-user'
+        groups: ['docker']
+        append: yes
+    - name: copy the file to the remote machine
+      copy:
+        src: ./docker-compose.yml
+        dest: "{{project_dir}}"
+        mode: '0755'
+    - name: Start container from compose
+      ansible.builtin.shell:
+        cmd: docker-compose up -d
+        chdir: "{{project_dir}}"
