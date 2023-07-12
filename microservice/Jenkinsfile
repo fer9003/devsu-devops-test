@@ -3,14 +3,14 @@ pipeline {
     tools {
         nodejs 'nodejs'
     }
-
     environment {
+        registryCredentials = 'dockerhub'
+        containerRegistry = "f90mora/devops-test"
         GITHUB_REPO= "https://github.com/fer9003/devsu-devops-test.git"
         DATABASE_NAME = credentials('db_name')
         DATABASE_USER = credentials('db_user')
         DATABASE_PASSWORD = credentials('db_pass')
     }
-
 stages {
     stage('Github Clone') {
         steps {
@@ -29,6 +29,18 @@ stages {
             cd microservice
             npm install && npm test
             """
+        }
+    }
+
+    stage('Docker Build and Push') {
+        steps {
+            withDockerRegistry([credentialsId: "registryCredentials", url:""]) {
+                sh """
+                printenv
+                docker build -t $containerRegistry:""$GIT_COMMIT"" .
+                docker push $containerRegistry:""$GIT_COMMIT""
+                """
+            }
         }
     }
 }
