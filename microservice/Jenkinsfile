@@ -32,6 +32,12 @@ stages {
     }
 
     stage('Docker Build and Push') {
+        when {
+            expression {
+                BRANCH_NAME == "master"
+            }
+        }
+        agent {label 'local'}
         steps {
             withDockerRegistry([credentialsId: "dockerhub", url:""]) {
                 sh """
