@@ -4,7 +4,6 @@ pipeline {
         nodejs 'nodejs'
     }
     environment {
-        registryCredentials = 'dockerhub'
         containerRegistry = "f90mora/devops-test"
         GITHUB_REPO= "https://github.com/fer9003/devsu-devops-test.git"
         DATABASE_NAME = credentials('db_name')
@@ -34,7 +33,7 @@ stages {
 
     stage('Docker Build and Push') {
         steps {
-            withDockerRegistry([credentialsId: "registryCredentials", url:""]) {
+            withDockerRegistry([credentialsId: "dockerhub", url:""]) {
                 sh """
                 printenv
                 docker build -t $containerRegistry:""$GIT_COMMIT"" .
