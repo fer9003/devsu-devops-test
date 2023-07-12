@@ -1,11 +1,39 @@
 pipeline {
     agent any
+    tools {
+        nodejs 'nodejs'
+    }
 
+    environment {
+        containerRegistry = "f90mora/devops-test"
+        registryCredentials = 'dockerhub'
+        AWS_DEFAULT_REGION = 'us-east-2' 
+        AWS_ACCESS_KEY_ID = credentials('aws_access_key_id')
+        AWS_SECRET_ACCESS_KEY = credentials('aws_secret_access_key')
+        GITHUB_REPO= "https://github.com/fer9003/devsu-devops-test.git"
+        DATABASE_NAME = credentials('db_name')
+        DATABASE_USER = credentials('db_user')
+        DATABASE_PASSWORD = credentials('db_pass')
+    }
 
 stages {
-    stage('Test') {
+    stage('Github Clone') {
         steps {
-            echo "Testing ok"
+            echo "Cloning Project from Github"
+            checkout scmGit(
+                branches: [[name: '*/master']],
+                extensions: [],
+                userRemoteConfigs: [[url: GITHUB_REPO ]]
+            )
+        }
+    }
+
+    stage('Unit Test') {
+        steps {
+            sh """
+            cd microservice
+            npm install && npm test
+            """
         }
     }
 }
