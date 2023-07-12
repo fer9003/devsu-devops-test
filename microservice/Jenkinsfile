@@ -37,7 +37,6 @@ stages {
                 BRANCH_NAME == "master"
             }
         }
-        agent {label 'local'}
         steps {
             withDockerRegistry([credentialsId: "dockerhub", url:""]) {
                 sh """
