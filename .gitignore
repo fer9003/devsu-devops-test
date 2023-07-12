@@ -3,3 +3,5 @@ Infrastructure/.terraform.lock.hcl
 aws_devtest.pem
 *.pem
 Infrastructure/terraform.tfvars
+microservice/.env
+.env
