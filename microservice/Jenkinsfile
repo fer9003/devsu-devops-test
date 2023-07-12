@@ -41,7 +41,7 @@ stages {
             withDockerRegistry([credentialsId: "dockerhub", url:""]) {
                 sh """
                 printenv
-                docker build -t $containerRegistry:""$GIT_COMMIT"" .
+                docker build -t $containerRegistry:""$GIT_COMMIT"" -f microservice/Dockerfile .
                 docker push $containerRegistry:""$GIT_COMMIT""
                 """
             }
