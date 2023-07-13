@@ -40,3 +40,6 @@ variable "az_1" {
   type = string
   default = "us-east-2a"
 }
+
+variable "node_private_ip" {}
+variable "node_instance_type"{}

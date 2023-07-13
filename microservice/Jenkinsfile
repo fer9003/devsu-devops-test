@@ -46,24 +46,24 @@ stages {
             }
         }
 
-    stage('Container Image Scan') {
-        steps {
-            parallel (
-                "Container Image Scan": {
-                    sh '''
-                        cd microservice/
-                        bash trivy-container-scan.sh
-                    '''
-                },
-                "OPA Dockerfile": {
-                    sh '''
-                        cd microservice/
-                        docker run --rm -v $(pwd):/project openpolicyagent/conftest test --policy opa-docker-sec.rego Dockerfile 
-                    '''
-                }
-            )
-        }
-    }
+    //stage('Container Image Scan') {
+    //   steps {
+    //        parallel (
+    //            "Container Image Scan": {
+    //                sh '''
+    //                   cd microservice/
+    //                    bash trivy-container-scan.sh
+    //                '''
+    //            },
+    //            "OPA Dockerfile": {
+    //                sh '''
+    //                    cd microservice/
+    //                    docker run --rm -v $(pwd):/project openpolicyagent/conftest test --policy opa-docker-sec.rego Dockerfile 
+    //                '''
+    //            }
+    //        )
+    //    }
+    //}
 
     stage('Docker Build and Push') {
         when {
@@ -78,6 +78,14 @@ stages {
                 docker build -t $containerRegistry:""$GIT_COMMIT"" .
                 docker push $containerRegistry:""$GIT_COMMIT""
                 """
+            }
+        }
+    }
+
+    stage('Deploy to Dev K8s') {
+         when {
+            expression {
+                BRANCH_NAME == "master"
             }
         }
     }

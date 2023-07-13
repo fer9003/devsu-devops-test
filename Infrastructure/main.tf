@@ -40,3 +40,15 @@ module "jenkins" {
   instance_type = var.instance_type
   key_name = var.key_name
 }
+
+module "jenkins-node" {
+  source = "./modules/jenkins-node"
+  aws_vpc_id    = module.networking.aws_vpc_id_out.id
+  aws_subnet_id = module.networking.aws_subnet_id_out.id
+  public_ip_admin = var.public_ip_admin
+  project = var.project
+  ports = var.ports
+  node_private_ip = var.node_private_ip
+  node_instance_type = var.node_instance_type
+  key_name = var.key_name
+}
