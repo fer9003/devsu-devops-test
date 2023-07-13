@@ -31,6 +31,21 @@ stages {
         }
     }
 
+    stage('Static Code Analysis') {
+        environment {
+            scannerHome = tool 'sonarqube-scanner' /* global-config */
+        }
+
+            steps {
+                withSonarQubeEnv('sonarqube') { /* configuration server */
+                    sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=microservice \
+                    -Dsonar.projectName=microservice \
+                    -Dsonar.projectVersion=1.0 \
+                    -Dsonar.sources=microservice/ '''
+                }
+            }
+        }
+
     stage('Docker Build and Push') {
         when {
             expression {
