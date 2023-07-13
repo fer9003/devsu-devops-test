@@ -57,7 +57,8 @@ stages {
                 },
                 "OPA Dockerfile": {
                     sh '''
-                        docker run --rm -v $(pwd):/project openpolicyagent/conftest test --policy opa-docker-sec.rego microservice/Dockerfile 
+                        pwd
+                        docker run --rm -v $(pwd):/project openpolicyagent/conftest test --policy opa-docker-sec.rego Dockerfile 
                     '''
                 }
             )
