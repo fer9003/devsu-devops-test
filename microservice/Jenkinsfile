@@ -49,7 +49,7 @@ stages {
     stage('Container Image Scan') {
         steps {
                 sh """
-                    cd /microservice
+                    cd microservice/
                     bash trivy-container-scan.sh
                 """
         }
