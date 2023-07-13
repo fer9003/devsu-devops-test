@@ -50,10 +50,10 @@ stages {
         steps {
             parallel (
                 "Container Image Scan": {
-                    sh """
+                    sh '''
                         cd microservice/
                         bash trivy-container-scan.sh
-                    """
+                    '''
                 },
                 "OPA Dockerfile": {
                     sh """
