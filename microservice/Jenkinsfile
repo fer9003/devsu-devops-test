@@ -46,24 +46,34 @@ stages {
             }
         }
 
-    //stage('Container Image Scan') {
-    //   steps {
-    //        parallel (
-    //            "Container Image Scan": {
-    //                sh '''
-    //                   cd microservice/
-    //                    bash trivy-container-scan.sh
-    //                '''
-    //            },
-    //            "OPA Dockerfile": {
-    //                sh '''
-    //                    cd microservice/
-    //                    docker run --rm -v $(pwd):/project openpolicyagent/conftest test --policy opa-docker-sec.rego Dockerfile 
-    //                '''
-    //            }
-    //        )
-    //    }
-    //}
+     stage ('Clone Helm Chart on JenkinsNode') {
+            agent {label 'local'}
+            steps {
+                checkout scmGit(branches: [[name: '*/master']],
+                extensions: [], 
+                userRemoteConfigs: [[url: GITHUB_REPO ]])
+            }
+        }
+
+    stage('Container Image Scan') {
+       agent {label 'local'} 
+       steps {
+            parallel (
+                "Container Image Scan": {
+                    sh '''
+                       cd microservice/
+                        bash trivy-container-scan.sh
+                    '''
+                },
+                "OPA Dockerfile": {
+                    sh '''
+                        cd microservice/
+                        docker run --rm -v $(pwd):/project openpolicyagent/conftest test --policy opa-docker-sec.rego Dockerfile 
+                    '''
+                }
+            )
+        }
+    }
 
     stage('Docker Build and Push') {
         when {
@@ -82,12 +92,8 @@ stages {
         }
     }
 
-    stage('Deploy to Dev K8s') {
-         when {
-            expression {
-                BRANCH_NAME == "master"
-            }
-        }
-    }
+
+
+
 }
 }
