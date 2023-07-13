@@ -48,7 +48,7 @@ stages {
 
     stage('Container Image Scan') {
         steps {
-            parallel {
+            parallel (
                 "Container Image Scan": {
                     sh """
                         cd microservice/
@@ -61,8 +61,8 @@ stages {
                         docker run --rm -v $(pwd):/project openpolicyagent/conftest test --policy opa-docker-sec.rego Dockerfile 
                     """
                 }
+            )
             }
-
         }
     }
 
