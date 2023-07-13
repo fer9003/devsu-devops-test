@@ -11,7 +11,7 @@ pipeline {
         DATABASE_PASSWORD = credentials('db_pass')
     }
 stages {
-    stage('Github Clone') {
+    stage('Github Clone on JenkinsServer') {
         steps {
             echo "Cloning Project from Github"
             checkout scmGit(
@@ -19,6 +19,15 @@ stages {
                 extensions: [],
                 userRemoteConfigs: [[url: GITHUB_REPO ]]
             )
+        }
+    }
+
+    stage ('Github Clone on JenkinsNode') {
+        agent {label 'local'}
+        steps {
+            checkout scmGit(branches: [[name: '*/master']],
+            extensions: [], 
+            userRemoteConfigs: [[url: GITHUB_REPO ]])
         }
     }
 
@@ -43,15 +52,6 @@ stages {
                     -Dsonar.projectVersion=1.0 \
                     -Dsonar.sources=microservice/ '''
                 }
-            }
-        }
-
-     stage ('Clone Helm Chart on JenkinsNode') {
-            agent {label 'local'}
-            steps {
-                checkout scmGit(branches: [[name: '*/master']],
-                extensions: [], 
-                userRemoteConfigs: [[url: GITHUB_REPO ]])
             }
         }
 
