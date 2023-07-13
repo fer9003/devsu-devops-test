@@ -48,10 +48,21 @@ stages {
 
     stage('Container Image Scan') {
         steps {
-                sh """
-                    cd microservice/
-                    bash trivy-container-scan.sh
-                """
+            parallel {
+                "Container Image Scan": {
+                    sh """
+                        cd microservice/
+                        bash trivy-container-scan.sh
+                    """
+                },
+                "OPA Dockerfile": {
+                    sh """
+                        cd microservice/
+                        docker run --rm -v $(pwd):/project openpolicyagent/conftest test --policy opa-docker-sec.rego Dockerfile 
+                    """
+                }
+            }
+
         }
     }
 
