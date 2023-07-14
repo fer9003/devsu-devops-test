@@ -30,7 +30,10 @@ Utilice helm charts para realizar el despliegue de la aplicación en ambiente de
 Se crearon 2 ingress un por ambiente como punto de entrada a el cluster EKS, de esta manera se puede redireccionar basado en reglas de enrutamiento a los services en este caso al service msvc-node-svc.
 
 ## Subdminios y certificado SSL
-Genere un certificado SSL mediante el servicio de AWS ACM para garantizar que las comunicaciones estén encriptadas, En el custom domain sandboxenv.site cree registros de tipo CNAME que apunten a los Ingress de cada ambiente
+Genere un certificado SSL mediante el servicio de AWS ACM para garantizar que las comunicaciones estén encriptadas, En el custom domain sandboxenv.site cree registros de tipo CNAME que apunten a los Ingress de cada ambiente.
+
+### SSL
+[![Image](https://devopstest-imagenes-fm.s3.amazonaws.com/sslcert2.png "SSL")](https://devopstest-imagenes-fm.s3.amazonaws.com/sslcert2.png)
 
 Desarrollo:
 dev-nodeapp.sandboxenv.site
@@ -47,11 +50,11 @@ nodeapp.sandboxenv.site
 
 ## Pruebas de funcionamiento
 
-Creación de Usuario mediante método POST
+### Creación de Usuario mediante método POST
 [![Image](https://devopstest-imagenes-fm.s3.amazonaws.com/testapp2.png "TestApp")](https://devopstest-imagenes-fm.s3.amazonaws.com/testapp2.png)
 
-Consultar el usuario creado mediante método GET
+### Consultar el usuario creado mediante método GET
 [![Image](https://devopstest-imagenes-fm.s3.amazonaws.com/testapp3.png "TestApp2")](https://devopstest-imagenes-fm.s3.amazonaws.com/testapp3.png)
 
-Consulta Desde el Navegador
+### Consulta Desde el Navegador
 [![Image](https://devopstest-imagenes-fm.s3.amazonaws.com/testapp.png "TestApp3")](https://devopstest-imagenes-fm.s3.amazonaws.com/testapp.png)
