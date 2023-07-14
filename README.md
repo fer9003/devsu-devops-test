@@ -1,4 +1,7 @@
 # DevOps Assessment
+
+[![Image](https://devopstest-imagenes-fm.s3.amazonaws.com/fullpipeline.png "Pipeline")](https://devopstest-imagenes-fm.s3.amazonaws.com/fullpipeline.png)
+
 ## Infraestructura como código:
 Siguiendo buenas prácticas se centralizó el state de terraform en un bucket S3 y se utilizó una DynamoDB table para bloquear el state en caso de intentos de provisionamiento simultaneo.
 El proyecto Terraform está estructurado usando módulos, los cuales detallo a continuación:
@@ -15,13 +18,31 @@ Este servidor se ejecuto en una VM vagrant local "disminuir costos del ambiente"
 El pipeline contiene los siguientes stages:
 1. Git Clone
 2. Test Unitario
-3. SAST
+[![Image](https://devopstest-imagenes-fm.s3.amazonaws.com/Unittestlogs.png "UnitTEst")](https://devopstest-imagenes-fm.s3.amazonaws.com/Unittestlogs.png)
+
+3. SAST "En el escaneo se encuentra BUGS en el codigo, se recomienda mejorar el codigo."
+   
+[![Image](https://devopstest-imagenes-fm.s3.amazonaws.com/sonarqube_bugs.png "SAST")](https://devopstest-imagenes-fm.s3.amazonaws.com/sonarqube_bugs.png)
+
 4. Container Image Scan / OPA Dockerfile
+
+[![Image](https://devopstest-imagenes-fm.s3.amazonaws.com/sonarqube_bugs.png "SAST")](https://devopstest-imagenes-fm.s3.amazonaws.com/sonarqube_bugs.png)
+
 5. Docker Build and Push
+
 6. Deploy to Dev K8s
+[![Image](https://devopstest-imagenes-fm.s3.amazonaws.com/deploydevk8s.png "DeployDev")](https://devopstest-imagenes-fm.s3.amazonaws.com/deploydevk8s.png)
+
 7. Integration Test "solamente se colocó el stage para que se visualice que es necesario"
+
 8. Promote to Production: Aprobación manual para llevar los cambios a Producción.
+
+[![Image](https://devopstest-imagenes-fm.s3.amazonaws.com/promotetoprod.png "Promote")](https://devopstest-imagenes-fm.s3.amazonaws.com/promotetoprod.png)
+
 9. Deploy to Production k8s
+
+[![Image](https://devopstest-imagenes-fm.s3.amazonaws.com/deployprodk8s.png "Deployk8s")](https://devopstest-imagenes-fm.s3.amazonaws.com/deployprodk8s.png)
+
 
 ## HELM CHARTS
 Utilice helm charts para realizar el despliegue de la aplicación en ambiente de desarrollo y producción "usando namespaces" debido a que es fácil de mantener en el tiempo y óptimo para actualizar nuevos cambios.
@@ -29,8 +50,11 @@ Utilice helm charts para realizar el despliegue de la aplicación en ambiente de
 ## INGRESS
 Se crearon 2 ingress un por ambiente como punto de entrada a el cluster EKS, de esta manera se puede redireccionar basado en reglas de enrutamiento a los services en este caso al service msvc-node-svc.
 
+[![Image](https://devopstest-imagenes-fm.s3.amazonaws.com/ingressAWS.png "Ingress")](https://devopstest-imagenes-fm.s3.amazonaws.com/ingressAWS.png)
+
 ## Subdminios y certificado SSL
 Genere un certificado SSL mediante el servicio de AWS ACM para garantizar que las comunicaciones estén encriptadas, En el custom domain sandboxenv.site cree registros de tipo CNAME que apunten a los Ingress de cada ambiente.
+
 
 ### SSL
 [![Image](https://devopstest-imagenes-fm.s3.amazonaws.com/sslcert2.png "SSL")](https://devopstest-imagenes-fm.s3.amazonaws.com/sslcert2.png)
