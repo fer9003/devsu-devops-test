@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #!/bin/bash
 #kubectl
-sudo apt update
+sudo apt update -y
 sudo apt install snapd
 sudo snap install kubectl --channel=1.21/stable --classic
 #helm
