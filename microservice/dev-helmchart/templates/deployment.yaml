@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: msvc-node
+  labels:
+    app: msvc-node
+spec:
+  selector:
+    matchLabels:
+      app: msvc-node
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: msvc-node
+    spec:
+      containers:
+      - name: msvc-node
+        #image: f90mora/devops-test:9e818caf5c93c93dba4f7827676da12557149996
+        image: {{ .Values.nodeimage }}
+        ports:
+        - containerPort: 8000
+        resources:
+          requests:
+            memory: 300Mi
+            cpu: 200m
+        livenessProbe:
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          httpGet:
+            path: /api/users
+            port: 8000
+        readinessProbe:
+          httpGet:
+            path: /api/users
+            port: 8000

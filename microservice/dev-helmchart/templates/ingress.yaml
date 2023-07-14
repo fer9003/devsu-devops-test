@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dev-ingress-ssl-devopstest
+  annotations:
+    alb.ingress.kubernetes.io/load-balancer-name: dev-ingress-ssl-devopstest
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/healthcheck-protocol: HTTP 
+    alb.ingress.kubernetes.io/healthcheck-port: traffic-port  
+    alb.ingress.kubernetes.io/healthcheck-interval-seconds: '15'
+    alb.ingress.kubernetes.io/healthcheck-timeout-seconds: '5'
+    alb.ingress.kubernetes.io/success-codes: '200'
+    alb.ingress.kubernetes.io/healthy-threshold-count: '2'
+    alb.ingress.kubernetes.io/unhealthy-threshold-count: '2'   
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}, {"HTTP":80}]'
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-2:525218544323:certificate/6923d68e-1a2d-44d2-b0aa-cf8eab046b08
+
+    alb.ingress.kubernetes.io/ssl-redirect: '443'      
+spec:
+  ingressClassName: my-aws-ingress-class              
+  defaultBackend:
+    service:
+      name: msvc-node-svc
+      port:
+        number: 8000     
+
