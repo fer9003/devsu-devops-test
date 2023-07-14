@@ -29,7 +29,7 @@ Es recomendable realizar escaneos a las imagenes que se usan para contenerizar l
 [![Image](https://devopstest-imagenes-fm.s3.amazonaws.com/containerimagescan.png "ConatinerScan")](https://devopstest-imagenes-fm.s3.amazonaws.com/containerimagescan.png)
 
 5. Docker Build and Push
-Se crea la custom image en base al Dockerfile, se coloca un tag a la imagen y se realiza un push DockerHub.
+Se crea la custom image en base al Dockerfile, se coloca un tag a la imagen y se realiza un push al repositorio en DockerHub.
 [![Image](https://devopstest-imagenes-fm.s3.amazonaws.com/dockerbuildandpush.png "ConatinerScan")](https://devopstest-imagenes-fm.s3.amazonaws.com/dockerbuildandpush.png)
 
 6. Deploy to Dev K8s
