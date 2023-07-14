@@ -117,7 +117,7 @@ stages {
                         else
                             kubectl create namespace development
                         fi
-                        helm upgrade --install --force devopstest helmchart --set nodeimage=${containerRegistry}:""$GIT_COMMIT"" --namespace development
+                        helm upgrade --install --force devopstest dev-helmchart --set nodeimage=${containerRegistry}:""$GIT_COMMIT"" --namespace development
                         """
                     }
                     
