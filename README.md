@@ -47,4 +47,11 @@ nodeapp.sandboxenv.site
 
 ## Pruebas de funcionamiento
 
+Creación de Usuario mediante método POST
 [![Image](https://devopstest-imagenes-fm.s3.amazonaws.com/testapp2.png "TestApp")](https://devopstest-imagenes-fm.s3.amazonaws.com/testapp2.png)
+
+Consultar el usuario creado mediante método GET
+[![Image](https://devopstest-imagenes-fm.s3.amazonaws.com/testapp3.png "TestApp2")](https://devopstest-imagenes-fm.s3.amazonaws.com/testapp3.png)
+
+Consulta Desde el Navegador
+[![Image](https://devopstest-imagenes-fm.s3.amazonaws.com/testapp.png "TestApp3")](https://devopstest-imagenes-fm.s3.amazonaws.com/testapp.png)
