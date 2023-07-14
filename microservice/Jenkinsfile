@@ -156,7 +156,11 @@ stages {
                         export AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
                         cd microservice/
                         aws eks list-clusters
-                        kubectl create namespace production
+                        if kubectl get namespace production > /dev/null 2>&1; then
+                            echo "El namespace ya existe"
+                        else
+                            kubectl create namespace production
+                        fi
                         helm upgrade --install --force devopsprod helmchart --set nodeimage=${containerRegistry}:""$GIT_COMMIT"" --namespace production
                     """
                     }
