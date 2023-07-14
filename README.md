@@ -25,11 +25,11 @@ El pipeline contiene los siguientes stages:
 [![Image](https://devopstest-imagenes-fm.s3.amazonaws.com/sonarqube_bugs.png "SAST")](https://devopstest-imagenes-fm.s3.amazonaws.com/sonarqube_bugs.png)
 
 4. Container Image Scan / OPA Dockerfile
-Es recomendable realizar escaneos a las imagenes que se usan para contenerizar las aplicaciones para descartar vulnerabilidades, de igual manera se ejecuta un test que valida la configuracion del Dockerfile con el fin de encontrar patrones de configuracion negativos.
+Es recomendable realizar escaneos a las imagenes que se usan para contenerizar las aplicaciones para descartar vulnerabilidades, de igual manera se ejecuta un test que valida la configuracion del Dockerfile con el fin de encontrar y corregir patrones de configuracion negativos.
 [![Image](https://devopstest-imagenes-fm.s3.amazonaws.com/containerimagescan.png "ConatinerScan")](https://devopstest-imagenes-fm.s3.amazonaws.com/containerimagescan.png)
 
 5. Docker Build and Push
-
+Se crea la custom image en base al Dockerfile, se coloca un tag a la imagen y se realiza un push DockerHub.
 [![Image](https://devopstest-imagenes-fm.s3.amazonaws.com/dockerbuildandpush.png "ConatinerScan")](https://devopstest-imagenes-fm.s3.amazonaws.com/dockerbuildandpush.png)
 
 6. Deploy to Dev K8s
@@ -69,12 +69,6 @@ Producción:
 nodeapp.sandboxenv.site
 
 
-### Opciones de mejora
-1. Implementar HPA "Horizontal Pod Autoscaling" 
-2. Refactorizar el código para aislar la BD de la aplicación, la BD se podría ejecutar en un contenedor separado.
-3. Corregir algunos bugs que arroja la app "resultado de la ejecución de SAST"
-
-
 ## Pruebas de funcionamiento
 
 ### Creación de Usuario mediante método POST
@@ -85,3 +79,8 @@ nodeapp.sandboxenv.site
 
 ### Consulta Desde el Navegador
 [![Image](https://devopstest-imagenes-fm.s3.amazonaws.com/testapp.png "TestApp3")](https://devopstest-imagenes-fm.s3.amazonaws.com/testapp.png)
+
+### Opciones de mejora
+1. Implementar HPA "Horizontal Pod Autoscaling" 
+2. Refactorizar el código para aislar la BD de la aplicación, la BD se podría ejecutar en un contenedor separado.
+3. Corregir algunos bugs que arroja la app "resultado de la ejecución de SAST"
