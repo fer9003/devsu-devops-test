@@ -25,22 +25,25 @@ El pipeline contiene los siguientes stages:
 [![Image](https://devopstest-imagenes-fm.s3.amazonaws.com/sonarqube_bugs.png "SAST")](https://devopstest-imagenes-fm.s3.amazonaws.com/sonarqube_bugs.png)
 
 4. Container Image Scan / OPA Dockerfile
-
-[![Image](https://devopstest-imagenes-fm.s3.amazonaws.com/sonarqube_bugs.png "SAST")](https://devopstest-imagenes-fm.s3.amazonaws.com/sonarqube_bugs.png)
+Es recomendable realizar escaneos a las imagenes que se usan para contenerizar las aplicaciones para descartar vulnerabilidades, de igual manera se ejecuta un test que valida la configuracion del Dockerfile con el fin de encontrar patrones de configuracion negativos.
+[![Image](https://devopstest-imagenes-fm.s3.amazonaws.com/containerimagescan.png "ConatinerScan")](https://devopstest-imagenes-fm.s3.amazonaws.com/containerimagescan.png)
 
 5. Docker Build and Push
 
+[![Image](https://devopstest-imagenes-fm.s3.amazonaws.com/dockerbuildandpush.png "ConatinerScan")](https://devopstest-imagenes-fm.s3.amazonaws.com/dockerbuildandpush.png)
+
 6. Deploy to Dev K8s
+Despliegue utilizando la helmchart para ambiente de desarrollo.
 [![Image](https://devopstest-imagenes-fm.s3.amazonaws.com/deploydevk8s.png "DeployDev")](https://devopstest-imagenes-fm.s3.amazonaws.com/deploydevk8s.png)
 
 7. Integration Test "solamente se colocó el stage para que se visualice que es necesario"
 
 8. Promote to Production: Aprobación manual para llevar los cambios a Producción.
-
+Es recomendable colocar aprobacion manual para llevar los cambios a produccion.
 [![Image](https://devopstest-imagenes-fm.s3.amazonaws.com/promotetoprod.png "Promote")](https://devopstest-imagenes-fm.s3.amazonaws.com/promotetoprod.png)
 
 9. Deploy to Production k8s
-
+ Despliegue utilizando la helmchart para ambiente de produccion.
 [![Image](https://devopstest-imagenes-fm.s3.amazonaws.com/deployprodk8s.png "Deployk8s")](https://devopstest-imagenes-fm.s3.amazonaws.com/deployprodk8s.png)
 
 
