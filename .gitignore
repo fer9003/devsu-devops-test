@@ -4,4 +4,5 @@ aws_devtest.pem
 *.pem
 Infrastructure/terraform.tfvars
 microservice/.env
+Infrastructure/modules/eks-cluster/.terraform
 .env
