@@ -112,6 +112,7 @@ stages {
                         export AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
                         cd microservice/
                         aws eks list-clusters
+                        kubectl create namespace development
                         helm upgrade --install --force devopstest helmchart --set nodeimage=${containerRegistry}:""$GIT_COMMIT"" --namespace development
                         """
                     }
