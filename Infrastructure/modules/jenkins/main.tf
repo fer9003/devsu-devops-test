@@ -3,6 +3,7 @@ provider "aws" {
 }
 
 resource "aws_security_group" "sg_jenkins" {
+    name = "jenkins-sg"
     vpc_id = var.aws_vpc_id
 
     dynamic ingress {

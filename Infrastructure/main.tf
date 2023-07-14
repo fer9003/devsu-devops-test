@@ -6,13 +6,14 @@ terraform {
       version = "~> 3.70"
     }
   }
-
+    
   backend "s3" {
     bucket         = "infrastructure-fm90"
-    key            = "infra/terraform.tfstate"
+    key            = "infra/ops/terraform.tfstate"
     region         = "us-east-2"
     dynamodb_table = "infrastructure-fm"
   }
+
 }
 
 provider "aws" {
