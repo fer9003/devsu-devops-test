@@ -120,8 +120,46 @@ stages {
                 }
             }
         }
+    
+    stage('Integration Test') {
+        steps {
+            echo "En esta fase se recomienda agregar test automatizados de integración, carga y rendimiento"
+        }
+    }
 
+     stage('Promote to Production') {
+        steps {
+          timeout(time: 2, unit: 'DAYS') {
+            input 'Aprueba el paso a ambiente de producción ?'
+          }
+        }
+      }
 
+    stage ('Deploy to Production K8s') {
+        when {
+            expression {
+                BRANCH_NAME == "master"
+            }
+        }
+        agent {label 'local'}
+        steps {
+            script {
+                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONF')]) {
+                    sh """
+                        export KUBECONFIG=\${KUBECONF}
+                        export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+                        export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+                        export AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+                        cd microservice/
+                        aws eks list-clusters
+                        kubectl create namespace production
+                        helm upgrade --install --force devopsprod helmchart --set nodeimage=${containerRegistry}:""$GIT_COMMIT"" --namespace production
+                    """
+                    }
+                    
+                }
+            }
+        }
 
 
 }
